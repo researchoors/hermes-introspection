@@ -1,0 +1,41 @@
+name: Daily Introspection
+
+on:
+  schedule:
+    # Run daily at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  introspect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+
+      - name: Run introspection pipeline
+        run: |
+          python -m hermes_introspection
+        env:
+          HERMES_SESSIONS_DIR: ~/.hermes/sessions
+
+      - name: Commit and push metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/metrics/
+          git diff --staged --quiet || git commit -m "📊 Automated daily metrics: $(date +%Y-%m-%d)"
+          git push
