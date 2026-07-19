@@ -1,0 +1,16 @@
+{
+  "date": "2026-07-19",
+  "session_count": 0,
+  "total_tool_calls": 0,
+  "avg_iterations_to_success": 0.0,
+  "total_human_interventions": 0,
+  "total_error_repeats": 0,
+  "avg_information_seeking_ratio": 0.0,
+  "avg_wall_time_seconds": 0.0,
+  "outcomes": {
+    "completed": 0,
+    "abandoned": 0,
+    "in_progress": 0
+  },
+  "sessions": []
+}
